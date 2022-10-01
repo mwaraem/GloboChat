@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.NavHostFragment
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
@@ -42,9 +43,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         val statusPref = findPreference<EditTextPreference>("key_status")
         statusPref?.setOnPreferenceChangeListener { preference, newValue ->
-            Log.i("SettingsFragment", "New status: $newValue")
 
-            true    //true: accept the new value. false: reject the new value.
+            val newStatus = newValue as String
+            if (newStatus.contains("bad")) {
+                Toast.makeText(context, "Inappropriate Status. Pleas maintain community guidlines." ,
+                    Toast.LENGTH_SHORT).show()
+
+                false
+            } else {
+                true
+            }
         }
     }
 }
